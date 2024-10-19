@@ -60,7 +60,33 @@ namespace BepinControl
 
         public void addEffect()
         {
-
+            switch (type)
+            {
+                case TimedType.FORCE_MATH:
+                    {
+                        TestMod.ActionQueue.Enqueue(() =>
+                        {
+                            TestMod.forceMath = true;
+                        });
+                        break;
+                    }
+                case TimedType.FORCE_CARD:
+                    {
+                        TestMod.ActionQueue.Enqueue(() =>
+                        {
+                            TestMod.ForceCard = true;
+                        });
+                        break;
+                    }
+                case TimedType.FORCE_CASH:
+                    {
+                        TestMod.ActionQueue.Enqueue(() =>
+                        {
+                            TestMod.ForceCash = true;
+                        });
+                        break;
+                    }
+            }
         }
 
     
@@ -68,7 +94,33 @@ namespace BepinControl
         {
             try
             {
-                
+                switch(etype)
+                {
+                    case TimedType.FORCE_MATH:
+                        {
+                            TestMod.ActionQueue.Enqueue(() =>
+                            {
+                                TestMod.forceMath = false;
+                            });
+                            break;
+                        }
+                    case TimedType.FORCE_CARD:
+                        {
+                            TestMod.ActionQueue.Enqueue(() =>
+                            {
+                                TestMod.ForceCard = false;
+                            });
+                            break;
+                        }
+                    case TimedType.FORCE_CASH:
+                        {
+                            TestMod.ActionQueue.Enqueue(() =>
+                            {
+                                TestMod.ForceCash = false;
+                            });
+                            break;
+                        }
+                }
             } catch(Exception e)
             {
                 TestMod.mls.LogInfo(e.ToString());

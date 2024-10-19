@@ -50,8 +50,10 @@ namespace BepinControl
         public static bool ranVersionCheck = false;
 
         public static bool forceMath = false;
+        public static bool ForceCash = false;
+        public static bool ForceCard = false;
         private const string MESSAGE_TAG = "</b>";
-
+        public static List<List<string>> productsInfosArray = new List<List<string>>();
         public static Dictionary<string, string> spawnedObjects = new Dictionary<string, string>();
 
 
@@ -1565,6 +1567,14 @@ namespace BepinControl
             }
         }
 
+        [HarmonyPatch(typeof(Data_Container), "RpcShowPaymentMethod")]
+        [HarmonyPrefix]
+        public static void Prefix(ref int index)
+        {
+            if (!ForceCash || !ForceCard) return;
+            if (ForceCash) index = 0;
+            if (ForceCard) index = 1;
+        }
 
         [HarmonyPatch(typeof(GameData), "UpdateSunPosition")]
         public class Patch_UpdateSunPosition

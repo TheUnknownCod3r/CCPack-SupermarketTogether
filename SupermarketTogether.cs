@@ -27,7 +27,7 @@ namespace CrowdControl.Games.Packs.SupermarketTogether
 
 
             new Effect("Jail Player", "jailplayer"){ Description = "Put the player in jail!", Category = "Player"},
-            new Effect("Force Math", "forcemath"){ Description = "Force the player to do the math when giving change!", Category = "Register"},
+            new Effect("Force Math", "forcemath"){ Description = "Force the player to do the math when giving change!", Category = "Register", Duration = 30},
 
 
 

@@ -1,9 +1,12 @@
-﻿using HutongGames.PlayMaker.Actions;
+﻿using HighlightPlus;
+using HutongGames.PlayMaker.Actions;
 using Mirror;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -369,33 +372,15 @@ namespace BepinControl
 
         public static CrowdResponse ForceMath(ControlClient client, CrowdRequest req)
         {
-            CrowdResponse.Status status = CrowdResponse.Status.STATUS_SUCCESS;
-            string message = "";
+            int dur = 30;
+            if(req.duration > 0) dur = req.duration / 1000;
+            if (TestMod.forceMath || TimedThread.isRunning(TimedType.FORCE_MATH)) return new CrowdResponse(req.GetReqID(), CrowdResponse.Status.STATUS_RETRY, "");
 
-            try
-            {
+            TestMod.forceMath = true;
 
-                
-                TestMod.ActionQueue.Enqueue(() =>
-                {
-                    TestMod.forceMath = true;
-                    // this doenst turn off yet, need to make it timed and needs proper checks
-                });
-
-                
-                
-
-
-            }
-            catch (Exception e)
-            {
-                TestMod.mls.LogInfo($"Crowd Control Error: {e.ToString()}");
-                status = CrowdResponse.Status.STATUS_RETRY;
-            }
-
-            return new CrowdResponse(req.GetReqID(), status, message);
+            new Thread(new TimedThread(req.GetReqID(), TimedType.FORCE_MATH, dur * 1000).Run).Start();
+            return new TimedResponse(req.GetReqID(), dur * 1000, CrowdResponse.Status.STATUS_SUCCESS);
         }
-
         public static CrowdResponse SpawnTrash(ControlClient client, CrowdRequest req)
         {
             CrowdResponse.Status status = CrowdResponse.Status.STATUS_SUCCESS;
