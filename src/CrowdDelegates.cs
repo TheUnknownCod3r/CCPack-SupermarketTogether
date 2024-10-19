@@ -58,8 +58,8 @@ namespace BepinControl
                         item.transform.Find("Light_1").gameObject.SetActive(value: true);
                         item.transform.Find("Light_2").gameObject.SetActive(value: true);
 
-
-                        gd.timeOfDay = gd.timeOfDay + 1f;
+                        gd.NetworktimeOfDay = gd.NetworktimeOfDay + 1f;//correct time of day
+                        //gd.timeOfDay = gd.timeOfDay + 1f;
 
                     }
                 });
